@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    font-size: 30px;
+}
+
+.calc {
+    border: 1px solid #c3c3c3;
+    margin-top: 20px;
+    background: black;
+    width: 700px;
+    justify-content: space-between;
+}
+
+.result-wrapper {
+    margin: 2px;
+    border: 1px solid #cc99cc;
+    border-radius: 2px;
+    background: #c4c4c4;
+}
+
+.history {
+    margin: 2px;
+    border-radius: 2px;
+    background: #b3d4fc;
+    width: 38%;
+}
+
+.result {
+    width: 100%;
+}
