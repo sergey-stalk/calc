@@ -9,7 +9,7 @@ body {
     border: 1px solid #c3c3c3;
     margin-top: 20px;
     background: black;
-    width: 700px;
+    width: 400px;
     justify-content: space-between;
 }
 
@@ -27,6 +27,23 @@ body {
     width: 38%;
 }
 
-.result {
+#result {
     width: 100%;
+}
+
+#buttons-wrapper {
+    width: 100%;
+    background: #b3d4fc;
+}
+
+button {
+    width: 100px;
+}
+
+.max-width {
+    flex-grow: 0.5;
+}
+
+.row-button {
+    display: flex;
 }
