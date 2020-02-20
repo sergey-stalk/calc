@@ -1,68 +1,46 @@
 const buttons = document.getElementById("buttons-wrapper");
 const resultField = document.getElementById("result");
+const mathSymbols = new RegExp('[/*=+-]');
+const operation = new RegExp('(CE|C|<)');
+const numbers = new RegExp("[0-9]");
 
-let num1 = 0;
-let num2 = 0;
+let hasMathSymbols = false;
 
 buttons.addEventListener("click", parse);
 
-function isNumber(value) {
-    return !isNaN(value)
-}
-
 function parse(e) {
     const content = e.target.innerText;
-    if (isNumber(+content) && resultField.innerText === '0') {
-        resultField.innerText = content;
-    } else if (isNumber(+content)) {
+
+    if (resultField.innerText === '0' || content === "-" && resultField.innerText === '0') {
+        if (content !== "=") {
+            resultField.innerText = content;
+        }
+    } else if (content.match(numbers)) {
         resultField.innerText += content;
-    } else if (!isNumber(+content)) {
-        const operation = parseOperation(content);
-        operation(resultField.innerText);
+    } else if (content.match(mathSymbols) && !hasMathSymbols && content !== "=") {
+        resultField.innerText += content;
+        if (!resultField.innerHTML[0].match(mathSymbols) && resultField.innerText[resultField.innerText.length - 1].match(mathSymbols)) {
+            hasMathSymbols = true;
+        }
+    } else if (content.match(mathSymbols) && hasMathSymbols && content !== "=") {
+        resultField.innerText = resultInProceed(content) + content;
+    } else if (content.match(mathSymbols) && hasMathSymbols && content === "=") {
+        resultField.innerText = result();
+        hasMathSymbols = false;
     }
 }
 
-function parseOperation(value) {
-    if (value === "+") {
-        return sum
-    } else if (value === '-') {
-        return () => {
-        }
-    } else if (value === '*') {
-        return () => {
-        }
-    } else if (value === '/') {
-        return () => {
-        }
-    } else if (value === 'CE') {
-        return () => {
-        }
-    } else if (value === 'C') {
-        return () => {
-        }
-    } else if (value === '<=') {
-        return () => {
-        }
-    } else if (value === '=') {
-        return () => {
-        }
-    }
-
+function resultInProceed(symbol) {
+    const separateSentence = resultField.innerText.split(symbol);
+    const result = eval(`${separateSentence[0]} ${symbol} ${separateSentence[1]}`);
+    return result.toString();
 }
 
-
-function sum(value) {
-    if (value.split('').includes('+')) {
-        const arrValue = value.split('+');
-        const sum = Number(arrValue[0]) + Number(arrValue[1]);
-        resultField.innerText = `${sum.toString()}+`
-    } else {
-        resultField.innerText += '+'
-    }
-}
-
-function result(value) {
-
+function result() {
+    const operation = resultField.innerText.match(mathSymbols)[0];
+    const separateSentence = resultField.innerText.split(operation);
+    const result = eval(`${separateSentence[0]} ${operation} ${separateSentence[1]}`);
+    return result.toString();
 }
 
 
